@@ -1,0 +1,10 @@
+{% if families %}
+	<h1>Notifications sent to these families:</h1>
+    <ul>
+    {% for family in families %}
+        <li>{{family.name}} {{family.street.name}}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No families here this week</p>
+{% endif %}

@@ -1,0 +1,9 @@
+{% if families %}
+    <ul>
+    {% for family in families %}
+        <li>family.name + ' '+ family.street.name</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No families here this week</p>
+{% endif %}
