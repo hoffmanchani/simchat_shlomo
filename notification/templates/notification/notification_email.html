@@ -1,0 +1,8 @@
+{% load i18n %}
+<h1>שלום וברכה</h1>
+<p>נשמח לקבל דירה פנויה לשבת:</p>
+<ul>
+    {% for family in families %}
+        <li>{{ family.name }} : {{family.mobile}}</a></li>
+    {% endfor %}</ul>
+{{not_trim}}

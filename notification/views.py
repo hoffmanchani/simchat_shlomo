@@ -1,32 +1,29 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader
-# Create your views here.
-from django.http import HttpResponse
 import requests
 from notification import models
-
+from django.conf import settings
+import datetime
+from django.core.mail import send_mail
+import random
 
 def index(request):
 	print ('1111 email_list')
-	email_list = []
 	families = models.Family.objects.all()
 	for family in families:
 		print ('email:', family.email)
-
-
-	print ('email list')
-	requests.post(
-	        "https://api.mailgun.net/v3/sandbox03cad43ae8ee4e27bdabd4594722db43.mailgun.org/messages",
-	        auth=("api", "key-866d80251fcf9e55999583f1671e3496"),
-	        data={"from": "Excited User <mailgun@sandbox03cad43ae8ee4e27bdabd4594722db43.mailgun.org>",
-	              "to": ["hoffmanchanisd2@gmail.com", "hoffmanchani@gmail.com"],
-	              "subject": "Hello",
-	              "text": "Testing some Mailgun awesomness!"})
-	print ('*****************email list')
+	email_list = [family.email for family in families]
 	context = {
-	'families': families,
-	}
+		'families': [{'name':'bloyground', 'mobile':'999999999'}],
+		'not_trim':random.randint(0,1000),
+	}  
+	msg_plain = loader.render_to_string('notification/notification_email.txt',context)
+	msg_html =  loader.render_to_string('notification/notification_email.html',context)
+	subject = 'hello, simchat shlomo'
+	send_mail(subject, msg_plain, 'postmaster@sandbox03cad43ae8ee4e27bdabd4594722db43.mailgun.org',
+				['hoffmanchani@gmail.com'],html_message=msg_html)
+	print ('email list')
 	template = loader.get_template('notification/index.html')
 
 	return HttpResponse(template.render(context, request))
@@ -36,20 +33,10 @@ def register(request):
 	betshemesh, _ = models.City.objects.get_or_create(name = 'Bet_shemesh')
 	uria, _ = models.Street.objects.get_or_create(name = 'Uria', city = betshemesh)
 
-
-	print ('register!!!!!')
-	email ='levi@gmail.com'
-	try:
-		family = models.Family.objects.get(email = email)
-	except models.Family.DoesNotExist:
-		family = models.Family.objects.create(name = 'levi',
-			street = uria,
-			building = '1',
-			phone = '029999999',
-			mobile = '1111111111',
-			email = 'asdasdfedfa@gmail.com',
-			)
-	return HttpResponse('levi family, wellcome! tizkoo lemitzvot!!!!!!!!!')
+	email_list = ['hoffmanchani@gmail.com', 'hoffmanchanisd2@gmail.com', 'hoffmanchanisd3@gmail.com']
+	for email in email_list:
+		models.Family.objects.get_or_create(email = email, street = uria)
+	return HttpResponse('-------- family, wellcome! tizkoo lemitzvot!!!!!!!!!')
 
 
 

@@ -1,0 +1,8 @@
+{% load i18n %}
+{% trans "Hi," %}
+
+{% blocktrans %}Hello, how do you feel?  We sure you have the time and the hart to help us!{% endblocktrans %}
+
+{% blocktrans %}If you have any questions or need additional assistance, contact us at {% endblocktrans %} https://simchat_shlomo.herokuapp.com/support/home
+
+{{not_trim}}

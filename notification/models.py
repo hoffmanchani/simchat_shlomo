@@ -10,12 +10,12 @@ class Street(models.Model):
 
 
 class Family(models.Model):
-	name = models.CharField(max_length=200)
-	street = models.ForeignKey(Street, on_delete=models.CASCADE)
-	building = models.CharField(max_length=200)
-	phone = models.CharField(max_length=200)
-	mobile = models.CharField(max_length=200)
 	email = models.CharField(max_length=200)
+	street = models.ForeignKey(Street, on_delete=models.CASCADE)
+	name = models.CharField(max_length=200, null = True)
+	building = models.CharField(max_length=200, null = True)
+	phone = models.CharField(max_length=200, null = True)
+	mobile = models.CharField(max_length=200, null = True)
 	def __str__(self):
 		return self.name
 
